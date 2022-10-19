@@ -1,9 +1,9 @@
 from flask import Flask, request, Response, jsonify
 import pandas as pd
 import json
+import pickle
 
-
-model_path = 'trained_model/kmean_model.pkl'
+model_path = 'trained_model/kmean_model.pickle'
 #zip_code_cluster_path = "zip_code_cluster.csv"
 
 def predict_cluster(input_features):
@@ -22,8 +22,8 @@ app = Flask(__name__)
 def cluster():
     try:
 	
+      #data = request.json
       data = request.json
-      
       print(f"data:{data}")
       
       if len(data)>1 :
@@ -32,7 +32,10 @@ def cluster():
           input_features = pd.DataFrame.from_dict(data,index=[0])
       prediction_cluster= predict_cluster(input_features)
 	  
-      return {"zip_code_cluster":prediction_cluster}
+      
+      print(f"prediction_cluster:{type(prediction_cluster)}")
+	  
+      return {'zip_code_cluster': prediction_cluster.tolist()}
 
     except Exception as e:
         print(f"error:{e}")
