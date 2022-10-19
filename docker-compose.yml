@@ -1,0 +1,8 @@
+version: "3.0"
+services:
+  web:
+    image: usa_zip_code_cluster
+    container_name: zip_cluster
+    restart: always
+    ports:
+    - 8085:8085
